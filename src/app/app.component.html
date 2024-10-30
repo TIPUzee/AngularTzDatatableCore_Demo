@@ -1,0 +1,53 @@
+<input
+   type="search"
+   [(ngModel)]="searchValue"
+   (change)="dt.search(searchValue)"
+>
+
+<button
+   (click)="dt.gotoPage(dt.getPageNb() - 1)"
+   [disabled]="dt.getPageNb() === 1"
+>
+   Prev
+</button>
+
+<button
+   (click)="dt.gotoPage(dt.getPageNb() + 1)"
+   [disabled]="dt.getPageNb() === dt.getTotalPages()"
+>
+   Next
+</button>
+
+<!-- ---------- -->
+<!-- Table -->
+<!-- ---------- -->
+<table>
+   <thead>
+      <tr>
+         @for (col of dt.getColsConfigAsArray(); track col.key) {
+            <th
+               (click)="dt.setSortingKey(col.key)"
+            >
+               {{ col.title }}
+            </th>
+         }
+      </tr>
+   </thead>
+
+   <tbody>
+      @for (row of dt.getPageDataViewAsAny(); track row._dataUuid_) {
+         <tr>
+            @for (col of dt.getColsConfigAsArray(); track col.key) {
+               <td *ngIf="col.isVisible">
+                  <div>
+                     {{ row[col.key] }}
+                  </div>
+               </td>
+            }
+         </tr>
+      }
+   </tbody>
+</table>
+<!-- ---------- -->
+<!-- Table -->
+<!-- ---------- -->
